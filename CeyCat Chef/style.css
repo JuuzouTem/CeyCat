@@ -1,0 +1,417 @@
+:root {
+    --bg-color: #FFF8E1; /* Krem */
+    --primary-color: #FFB74D; /* Tatlı Turuncu */
+    --secondary-color: #AED581; /* Açık Yeşil */
+    --accent-color: #FF8A65; /* Mercan */
+    --text-color: #5D4037; /* Koyu Kahve */
+    --light-text-color: #8D6E63; /* Açık Kahve */
+    --white-color: #FFFFFF;
+    --container-bg: #fff;
+    --overlay-bg: rgba(0, 0, 0, 0.75);
+    --button-hover: #FFA726; /* Daha Parlak Turuncu */
+    --button-active: #FB8C00; /* Daha Koyu Turuncu */
+    --success-color: #66BB6A; /* Yeşil */
+    --warning-color: #FFA000; /* Sarı/Turuncu */
+    --error-color: #E57373; /* Kırmızı */
+    --danger-color: #D32F2F; /* Koyu Kırmızı (Sıfırlama butonu) */
+    --disabled-color: #BDBDBD; /* Gri */
+
+    --font-primary: 'Poppins', 'Nunito', sans-serif;
+    --font-secondary: 'Pacifico', cursive;
+    --font-size-base: 16px;
+    --border-radius-small: 8px;
+    --border-radius-medium: 15px;
+    --border-radius-large: 25px;
+    --box-shadow-light: 0 4px 15px rgba(0, 0, 0, 0.1);
+    --box-shadow-medium: 0 8px 25px rgba(0, 0, 0, 0.15);
+
+    --transition-speed: 0.3s;
+}
+
+/* Genel Stiller */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    font-family: var(--font-primary);
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-size: var(--font-size-base);
+    line-height: 1.6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+h1, h2, h3 {
+    font-weight: 600;
+    margin-bottom: 0.8em;
+}
+
+.pacifico {
+    font-family: var(--font-secondary);
+    font-weight: 400;
+    color: var(--primary-color);
+}
+
+/* Ekran Yönetimi */
+.screen {
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity var(--transition-speed) ease, visibility 0s linear var(--transition-speed);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    overflow: hidden;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity var(--transition-speed) ease, visibility 0s linear var(--transition-speed);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    background-color: var(--overlay-bg);
+    z-index: 1000;
+}
+
+.screen.active, .overlay.active {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity var(--transition-speed) ease;
+}
+
+/* Yükleme Ekranı */
+#loading-screen {
+    background-color: var(--bg-color);
+    z-index: 2000;
+    position: fixed; /* Overlay gibi davranır */
+}
+.loading-content { text-align: center; }
+.loading-content img { max-width: 150px; margin-bottom: 20px; }
+.loading-content p { font-size: 1.2em; color: var(--primary-color); font-weight: 600; }
+
+/* Ana Menü */
+#main-menu {
+    flex-direction: column;
+    text-align: center;
+    max-width: 600px;
+}
+.game-title { font-size: 3.5em; line-height: 1.1; color: var(--accent-color); margin-bottom: 10px; }
+.game-title .pacifico { font-size: 0.8em; }
+.menu-cat img { max-width: 180px; margin: 15px 0; animation: gentleBob 2s ease-in-out infinite; }
+.welcome-message { font-size: 1.4em; color: var(--light-text-color); margin-bottom: 30px; }
+.menu-buttons { display: flex; flex-direction: column; gap: 15px; align-items: center; }
+
+/* Oyun Konteyneri */
+#game-container {
+    background-color: var(--container-bg);
+    border-radius: var(--border-radius-large);
+    box-shadow: var(--box-shadow-medium);
+    max-width: 900px;
+    width: 95%;
+    height: 90vh;
+    max-height: 700px;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    overflow: hidden;
+}
+
+/* Oyun Başlığı */
+.game-header {
+    display: flex; justify-content: space-between; align-items: center;
+    background-color: var(--primary-color); color: var(--white-color);
+    padding: 12px 25px; border-radius: var(--border-radius-large) var(--border-radius-large) 0 0;
+    flex-shrink: 0;
+}
+.header-info { display: flex; align-items: center; gap: 8px; }
+.header-info .label { font-size: 0.9em; opacity: 0.8; }
+.header-info .value { font-weight: 700; font-size: 1.1em; }
+.score-display .value, #score-area .value { transition: color 0.3s ease, transform 0.3s ease; }
+.score-increase .value { color: var(--success-color) !important; transform: scale(1.15); }
+
+#timer-area .value { color: #fff352; }
+#timer-area.timer-warning .value { color: var(--error-color); animation: pulseWarning 1s infinite; }
+
+#pause-button {
+    background: none; border: 2px solid var(--white-color); color: var(--white-color);
+    font-size: 1.2em; font-weight: bold; width: 35px; height: 35px;
+    border-radius: 50%; cursor: pointer; transition: background-color var(--transition-speed), transform var(--transition-speed);
+    line-height: 1; padding: 0;
+}
+#pause-button:hover { background-color: rgba(255, 255, 255, 0.2); transform: scale(1.1); }
+
+/* Oyun Alanı */
+#game-area { display: flex; flex-grow: 1; padding: 25px; gap: 25px; overflow-y: auto; }
+
+/* Karakter Alanı */
+#character-area { flex-basis: 35%; display: flex; flex-direction: column; align-items: center; position: relative; padding-top: 10px; }
+.cat-container { position: relative; margin-bottom: 15px; cursor: pointer; }
+#chef-cat { max-width: 200px; display: block; animation: gentleBob 2s ease-in-out infinite; transition: transform 0.3s ease; }
+#chef-cat:hover { transform: scale(1.03); }
+
+.accessory { position: absolute; max-width: 60px; transition: opacity var(--transition-speed); pointer-events: none; }
+#cat-hat { top: -20px; left: 50%; transform: translateX(-50%) rotate(-10deg); z-index: 10; }
+#cat-apron { bottom: 30px; left: 50%; transform: translateX(-50%); max-width: 80px; z-index: 5; }
+
+#speech-bubble {
+    background-color: var(--white-color); border: 3px solid var(--secondary-color);
+    border-radius: var(--border-radius-medium); padding: 15px 20px; box-shadow: var(--box-shadow-light);
+    position: relative; max-width: 240px; opacity: 0; transform: translateY(10px) scale(0.95);
+    transition: opacity 0.4s ease, transform 0.4s ease; margin-top: 10px;
+}
+#speech-bubble::after { content: ''; position: absolute; top: -18px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 15px solid transparent; border-right: 15px solid transparent; border-bottom: 15px solid var(--secondary-color); }
+#speech-bubble::before { content: ''; position: absolute; top: -14px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 12px solid transparent; border-right: 12px solid transparent; border-bottom: 12px solid var(--white-color); z-index: 1; }
+#speech-bubble.active { opacity: 1; transform: translateY(0) scale(1); }
+#cat-message { font-size: 0.95em; line-height: 1.5; }
+
+/* Etkileşim Alanı */
+#interaction-area { flex-basis: 60%; background-color: #F9FBE7; border-radius: var(--border-radius-medium); padding: 25px; display: flex; flex-direction: column; }
+.task-title { color: var(--accent-color); font-size: 1.6em; text-align: center; }
+.task-description { font-size: 1.1em; margin-bottom: 20px; text-align: center; color: var(--light-text-color); }
+
+#ingredients-tools-container { display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; margin-bottom: 20px; min-height: 100px; padding: 10px; }
+#ingredients-tools-container.hidden { min-height: 0; padding: 0; margin-bottom: 0; display: none; }
+
+.ingredient, .tool { /* Bunlar artık <button> elementleri */
+    background-color: var(--white-color); border: 2px solid var(--secondary-color);
+    padding: 10px 15px; border-radius: var(--border-radius-medium); cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+    text-align: center; min-width: 90px; box-shadow: var(--box-shadow-light);
+    position: relative; overflow: hidden; font-family: inherit; /* Buton stilini sıfırla */
+    color: inherit; /* Buton stilini sıfırla */
+}
+.ingredient img, .tool img { max-width: 50px; height: 50px; object-fit: contain; display: block; margin: 0 auto 8px auto; }
+.ingredient span, .tool span { font-size: 0.9em; display: block; font-weight: 600; }
+.ingredient:hover:not(:disabled), .tool:hover:not(:disabled) { transform: translateY(-5px) scale(1.03); box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12); border-color: var(--primary-color); }
+
+.ingredient.selected, .tool.selected { border-color: var(--primary-color); background-color: #fff3e0; }
+.ingredient.selected::after, .tool.selected::after { content: '✓'; position: absolute; top: 5px; right: 8px; color: var(--primary-color); font-weight: bold; font-size: 1.2em; }
+
+.ingredient.correct-choice, .tool.correct-choice { border-color: var(--success-color); animation: pulseCorrect 0.5s ease; transform: scale(1.05); }
+.ingredient.incorrect-choice, .tool.incorrect-choice { border-color: var(--error-color); animation: shake 0.4s ease; }
+
+/* Disabled butonu daha belirgin yap */
+.ingredient:disabled, .tool:disabled { opacity: 0.5; cursor: not-allowed; box-shadow: none; transform: none; background-color: #f0f0f0; border-color: #e0e0e0; }
+.ingredient:disabled:hover, .tool:disabled:hover { transform: none; box-shadow: none; } /* Hover efektini kaldır */
+
+.feedback { margin-top: 15px; font-weight: bold; text-align: center; min-height: 24px; font-size: 1.1em; transition: color var(--transition-speed), opacity var(--transition-speed); opacity: 1; }
+.feedback:empty { opacity: 0; }
+.feedback.success { color: var(--success-color); }
+.feedback.warning { color: var(--warning-color); }
+.feedback.error { color: var(--error-color); }
+
+#next-step-button { margin-top: auto; align-self: center; }
+#next-step-button.hidden { display: none; }
+
+/* Mini Oyun Alanı */
+#minigame-area {
+    border: 3px dashed var(--accent-color); background-color: #fffbeb; border-radius: var(--border-radius-medium);
+    flex-grow: 1; display: flex; flex-direction: column; align-items: center; justify-content: space-around;
+    padding: 20px; transition: opacity 0.3s ease, height 0.3s ease, padding 0.3s ease, border 0.3s ease;
+    position: relative; /* Hidden durumunda akıştan çıkmasın diye relative */
+    overflow: hidden; /* Hidden durumunda içeriği gizle */
+}
+#minigame-area.hidden {
+    opacity: 0;
+    height: 0;
+    padding: 0;
+    border-width: 0;
+    margin: 0; /* Kenar boşluklarını sıfırla */
+    visibility: hidden;
+}
+#step-area.hidden { display: none; }
+
+#minigame-canvas { width: 100%; min-height: 150px; display: flex; justify-content: center; align-items: center; margin-bottom: 15px; }
+
+/* Mini Oyun Stilleri (Örnekler) */
+.choppable-item { cursor: pointer; border: 2px solid var(--secondary-color); border-radius: 10px; padding: 5px; text-align: center; transition: transform 0.1s ease, opacity 0.3s ease; background: white; margin: 5px; display: flex; flex-direction: column; align-items: center; }
+.choppable-item img { max-width: 60px; height: 60px; display: block; margin-bottom: 5px; }
+.choppable-item span { font-weight: bold; color: var(--primary-color); font-size: 1.1em; margin-top: 3px; }
+.choppable-item:hover:not([data-clicks-left="0"]) { transform: scale(1.05); }
+.choppable-item[data-clicks-left="0"] { opacity: 0.6; cursor: default; }
+.choppable-item[data-clicks-left="0"] span { color: var(--success-color); }
+.kneading-area, .mixing-area { cursor: pointer; text-align: center; padding: 10px; }
+.kneading-area img, .mixing-area img { max-width: 120px; transition: transform 0.15s cubic-bezier(0.68, -0.55, 0.27, 1.55); margin-bottom: 10px; }
+.kneading-area p, .mixing-area p { font-weight: bold; font-size: 1.2em; color: var(--accent-color); }
+/* ... (Diğer mini oyun stilleri aynı kalabilir) ... */
+.blending-area { cursor: pointer; text-align: center; }
+.blending-area img { max-width: 100px; margin-bottom: 15px; }
+.blending-progress-container { width: 70%; height: 20px; background: #eee; border-radius: 10px; margin: 0 auto; overflow: hidden; border: 1px solid #ccc; }
+.blending-progress { width: 0%; height: 100%; background-color: var(--secondary-color); transition: width 0.1s linear; }
+.rolling-area { cursor: pointer; text-align: center; }
+.rolling-area img { width: 150px; margin-bottom: 10px; transition: transform 0.2s ease; }
+.rolling-area p { color: var(--light-text-color); }
+.shaping-canvas { position: relative; min-height: 250px; width: 90%; background-size: contain; background-repeat: no-repeat; background-position: center; cursor: crosshair; border: 1px solid #eee; border-radius: var(--border-radius-small); }
+.placed-item { position: absolute; width: 30px; height: 30px; pointer-events: none; animation: dropIn 0.3s ease-out; }
+
+
+/* Genel Buton Stilleri */
+.action-button {
+    background-color: var(--primary-color); color: var(--white-color); border: none;
+    border-radius: var(--border-radius-large); padding: 10px 20px; font-size: 1em; font-weight: 700;
+    cursor: pointer; transition: background-color var(--transition-speed), transform 0.2s ease, box-shadow 0.2s ease;
+    text-transform: uppercase; letter-spacing: 0.5px; box-shadow: 0 3px 5px rgba(0,0,0,0.1);
+}
+.action-button:hover:not(:disabled) { background-color: var(--button-hover); transform: translateY(-2px); box-shadow: 0 5px 10px rgba(0,0,0,0.15); }
+.action-button:active:not(:disabled) { background-color: var(--button-active); transform: translateY(0); box-shadow: 0 2px 3px rgba(0,0,0,0.1); }
+.action-button.large { padding: 15px 35px; font-size: 1.2em; }
+.action-button.medium { padding: 12px 25px; font-size: 1em; }
+.action-button.small { padding: 8px 15px; font-size: 0.9em; }
+.action-button.danger { background-color: var(--error-color); }
+.action-button.danger:hover:not(:disabled) { background-color: var(--danger-color); }
+.action-button:disabled { background-color: var(--disabled-color); cursor: not-allowed; transform: none; box-shadow: none; opacity: 0.7; }
+
+/* Duraklatma Menüsü Buton Stilleri - Daha Zarif */
+#pause-menu .menu-content {
+    /* Butonları dikeyde sırala */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Butonları ortala */
+    gap: 12px; /* Butonlar arası boşluk */
+}
+#pause-menu .action-button {
+    /* Boyutları küçült */
+    padding: 10px 22px; /* Medium'dan biraz daha az */
+    font-size: 0.95em; /* Biraz daha küçük font */
+    border-radius: var(--border-radius-medium); /* Daha az yuvarlak köşe */
+    min-width: 180px; /* Minimum genişlik */
+    /* Large ve medium sınıflarının etkisini kaldır */
+    font-size: 0.95em !important; /* Gerekirse !important kullan */
+    padding: 10px 22px !important;
+}
+#pause-menu h2 { margin-bottom: 15px; }
+#pause-menu p { margin-bottom: 20px; }
+
+
+/* Overlay Ekranlar */
+.overlay-content, .menu-content, .completion-content {
+    background-color: var(--container-bg); padding: 30px 40px; border-radius: var(--border-radius-medium);
+    box-shadow: var(--box-shadow-medium); text-align: center; max-width: 90%; width: 600px;
+    max-height: 85vh; position: relative; animation: fadeInScale 0.4s ease-out;
+    display: flex; flex-direction: column;
+}
+.overlay-content.scrollable { overflow-y: auto; }
+.overlay h2 { color: var(--accent-color); margin-bottom: 25px; font-size: 1.8em; flex-shrink: 0; }
+.close-overlay-btn { margin-top: 20px; align-self: center; flex-shrink: 0; }
+
+/* Tamamlama Ekranı */
+#recipe-complete-screen img { max-width: 250px; height: auto; border-radius: var(--border-radius-medium); margin: 0 auto 20px auto; border: 4px solid var(--secondary-color); display: block; }
+#completion-message { font-size: 1.1em; margin-bottom: 20px; }
+.score-display { font-size: 1.3em; font-weight: bold; color: var(--primary-color); margin-bottom: 25px; }
+.score-display.hidden { display: none; }
+.completion-buttons { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; }
+
+/* Tarif Kitabı & Başarılar */
+.grid-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; overflow-y: auto; padding: 10px; flex-grow: 1; }
+.list { display: flex; flex-direction: column; gap: 15px; overflow-y: auto; padding: 10px; flex-grow: 1; }
+
+.recipe-card { border: 2px solid var(--secondary-color); border-radius: var(--border-radius-medium); padding: 15px; text-align: center; background-color: var(--white-color); transition: transform var(--transition-speed), box-shadow var(--transition-speed); cursor: pointer; display: flex; flex-direction: column; justify-content: space-between; }
+.recipe-card img { max-width: 80%; height: 100px; object-fit: contain; margin: 0 auto 10px auto; }
+.recipe-card h3 { font-size: 1.1em; margin-bottom: 5px; color: var(--primary-color); }
+.recipe-card p { font-size: 0.9em; color: var(--light-text-color); margin-bottom: 10px; }
+.recipe-card .difficulty-stars { font-weight: bold; color: var(--warning-color); letter-spacing: 1px; }
+.recipe-status { font-weight: bold; display: block; margin-top: auto; padding-top: 10px; }
+.recipe-status.unlocked { color: var(--success-color); }
+.recipe-status.locked { color: var(--error-color); font-size: 0.9em; }
+.recipe-status.locked small { font-size: 0.8em; color: var(--light-text-color); display: block; }
+.recipe-card.locked { opacity: 0.7; cursor: default; background-color: #f5f5f5; border-style: dashed; }
+.recipe-card:not(.locked):hover { transform: translateY(-5px); box-shadow: var(--box-shadow-light); }
+
+.achievement-item { border: 1px solid #ddd; padding: 15px; border-radius: var(--border-radius-small); display: flex; align-items: center; gap: 20px; background-color: #f9f9f9; }
+.achievement-item.unlocked { background-color: #e8f5e9; border-color: var(--secondary-color); }
+.achievement-item img { width: 60px; height: 60px; object-fit: contain; flex-shrink: 0; }
+.achievement-details { flex-grow: 1; text-align: left; }
+.achievement-details h4 { font-size: 1.1em; margin-bottom: 3px; color: var(--text-color); }
+.achievement-details p { font-size: 0.9em; color: var(--light-text-color); line-height: 1.4; }
+.achievement-details p small { color: var(--primary-color); font-weight: bold; }
+.achievement-item.unlocked .achievement-details p { color: #333; }
+.achievement-item.unlocked h4 { color: var(--success-color); }
+
+/* Ayarlar */
+#options-screen .options-group { margin-bottom: 20px; text-align: left; display: flex; align-items: center; justify-content: space-between; gap: 15px; }
+#options-screen label { font-weight: 600; flex-shrink: 0; }
+#options-screen input[type="range"] { flex-grow: 1; cursor: pointer; accent-color: var(--primary-color); }
+#reset-progress-btn { margin-left: auto; }
+
+/* Yardımcılar */
+.hidden { opacity: 0 !important; visibility: hidden !important; transition: visibility 0s linear var(--transition-speed), opacity var(--transition-speed) ease !important; }
+.visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+
+/* Bildirim */
+.toast-notification { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background-color: rgba(0, 0, 0, 0.8); color: white; padding: 12px 20px; border-radius: var(--border-radius-medium); z-index: 3000; font-size: 0.95em; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); display: flex; align-items: center; opacity: 0; transition: opacity 0.5s ease, transform 0.5s ease; animation: slideInUp 0.5s ease-out forwards; }
+.toast-notification.toast-success { background-color: var(--success-color); color: var(--white-color); }
+.toast-notification.toast-achievement { background-color: var(--primary-color); color: var(--white-color); }
+.toast-notification.toast-unlock { background-color: var(--secondary-color); color: var(--text-color); }
+.toast-notification.toast-error { background-color: var(--error-color); color: var(--white-color); }
+.toast-notification.fade-out { opacity: 0; }
+
+@keyframes slideInUp { from { transform: translate(-50%, 50px); opacity: 0; } to { transform: translate(-50%, 0); opacity: 1; } }
+
+/* Animasyonlar */
+@keyframes gentleBob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+@keyframes pulseCorrect { 0% { transform: scale(1.05); } 50% { transform: scale(1.12); } 100% { transform: scale(1.05); } }
+@keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-6px) rotate(-2deg); } 50% { transform: translateX(6px) rotate(2deg); } 75% { transform: translateX(-3px) rotate(-1deg); } }
+@keyframes fadeInScale { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+@keyframes pulseWarning { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.08); } }
+@keyframes dropIn { from { transform: translateY(-20px) scale(0.5); opacity: 0; } to { transform: translateY(0) scale(1); opacity: 1; } }
+
+/* Responsive */
+@media (max-width: 768px) {
+    body { font-size: 14px; }
+    .game-title { font-size: 2.5em; }
+    #game-container { height: 95vh; max-height: none; border-radius: 0; width: 100%; }
+    .game-header { padding: 10px 15px; border-radius: 0; }
+    .header-info .value { font-size: 1em; }
+    #pause-button { width: 30px; height: 30px; font-size: 1em; }
+    #game-area { flex-direction: column; padding: 15px; gap: 15px; }
+    #character-area { flex-basis: auto; order: 2; padding-top: 0; }
+    #interaction-area { flex-basis: auto; padding: 15px; order: 1; }
+    #chef-cat { max-width: 130px; }
+    #speech-bubble { max-width: 90%; font-size: 0.9em; }
+    .task-title { font-size: 1.4em; }
+    .task-description { font-size: 1em; }
+    .ingredient, .tool { min-width: 70px; padding: 8px 10px; }
+    .ingredient img, .tool img { max-width: 35px; height: 35px; margin-bottom: 5px; }
+    .ingredient span, .tool span { font-size: 0.8em; }
+    .overlay-content, .menu-content, .completion-content { width: 90%; padding: 20px; }
+    .grid-list { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
+    .action-button.large { padding: 12px 25px; font-size: 1em; }
+    .action-button.medium { padding: 10px 20px; font-size: 0.9em; }
+    .action-button.small { padding: 6px 12px; font-size: 0.8em; }
+    /* Pause menu butonları mobil için daha da küçülebilir */
+    #pause-menu .action-button { padding: 8px 18px !important; font-size: 0.9em !important; min-width: 150px; }
+}
+
+@media (max-width: 480px) {
+    .game-title { font-size: 2em; }
+    .welcome-message { font-size: 1.2em; }
+    .header-info .label { display: none; }
+    .header-info { gap: 5px; }
+    .grid-list { grid-template-columns: 1fr 1fr; }
+    .achievement-item { flex-direction: column; text-align: center; gap: 10px; }
+    .achievement-item img { margin: 0 auto; width: 50px; height: 50px; }
+    #options-screen .options-group { flex-direction: column; align-items: stretch; gap: 10px; }
+    #options-screen label { margin-bottom: 5px; }
+    #reset-progress-btn { align-self: center; margin-left: 0; }
+}

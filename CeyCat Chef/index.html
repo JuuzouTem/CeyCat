@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Şef Kedi'nin Gurme Maceraları! - Ceyda İçin</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&family=Pacifico&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <!-- Opsiyonel: Howler.js kütüphanesi eklenecekse -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script> -->
+</head>
+<body>
+    <!-- Yükleme Ekranı -->
+    <div id="loading-screen" class="overlay active">
+        <div class="loading-content">
+            <img src="images/chef_cat/loading.gif" alt="Yükleniyor...">
+             <p>Ceyda için Lezzetler Hazırlanıyor...</p>
+        </div>
+    </div>
+
+    <!-- Ana Menü -->
+    <div id="main-menu" class="screen hidden">
+        <h1 class="game-title"><span class="pacifico">Şef Kedi'nin</span><br>Gurme Maceraları</h1>
+        <div class="menu-cat">
+            <img src="images/chef_cat/wave.png" alt="Şef Kedi">
+        </div>
+        <p class="welcome-message">Hoş Geldin Ceyda!</p>
+        <div class="menu-buttons">
+            <button id="start-game-btn" class="action-button large">Maceraya Başla!</button>
+            <button id="recipe-book-btn" class="action-button medium">Tarif Kitabı</button>
+            <button id="achievements-btn" class="action-button medium">Başarılarım</button>
+             <button id="options-btn" class="action-button small">Ayarlar</button>
+        </div>
+    </div>
+
+    <!-- Oyun Ekranı -->
+    <div id="game-container" class="screen hidden">
+        <header class="game-header">
+            <div id="score-area" class="header-info">
+                <span class="label">Puan:</span>
+                <span id="score" class="value">0</span>
+            </div>
+            <div id="recipe-title-area" class="header-info">
+                <span class="label">Tarif:</span>
+                <span id="current-recipe-name" class="value"></span>
+            </div>
+            <div id="timer-area" class="header-info hidden">
+                 <span class="label">Süre:</span>
+                 <span id="timer" class="value">0s</span>
+            </div>
+             <button id="pause-button" class="header-button" title="Duraklat">||</button>
+        </header>
+
+        <main id="game-area">
+            <div id="character-area">
+                 <div class="cat-container">
+                    <img id="chef-cat" src="images/chef_cat/idle.png" alt="Şef Kedi">
+                    <!-- Kedi Aksesuarları için alan -->
+                    <div id="cat-accessories">
+                        <img id="cat-hat" class="accessory hidden" src="images/accessories/chef_hat.png">
+                        <img id="cat-apron" class="accessory hidden" src="images/accessories/apron.png">
+                    </div>
+                 </div>
+                <div id="speech-bubble" class="hidden">
+                    <p id="cat-message"></p>
+                </div>
+            </div>
+
+            <div id="interaction-area">
+                <!-- Normal Adımlar İçin -->
+                <div id="step-area">
+                    <h2 id="step-title" class="task-title"></h2>
+                    <p id="step-description" class="task-description"></p>
+                    <div id="ingredients-tools-container">
+                        <!-- Malzemeler/Araçlar dinamik olarak eklenecek -->
+                    </div>
+                    <div id="feedback-area" class="feedback"></div>
+                </div>
+
+                <!-- Mini Oyunlar İçin Alan -->
+                <div id="minigame-area" class="hidden">
+                    <h3 id="minigame-title" class="task-title"></h3>
+                     <p id="minigame-instructions" class="task-description"></p> <!-- Talimatı başlığın altına taşıdım -->
+                    <div id="minigame-canvas">
+                        <!-- Mini oyun içeriği (HTML veya Canvas) -->
+                    </div>
+                </div>
+
+                 <button id="next-step-button" class="action-button large hidden">Devam Et</button>
+            </div>
+        </main>
+    </div>
+
+    <!-- Duraklatma Menüsü -->
+    <div id="pause-menu" class="overlay hidden">
+        <div class="menu-content">
+            <h2>Duraklatıldı</h2>
+            <p>Biraz mola mı?</p>
+            <button id="resume-game-btn" class="action-button large">Devam Et</button>
+            <button id="options-pause-btn" class="action-button medium">Ayarlar</button>
+            <button id="quit-to-menu-btn" class="action-button medium">Ana Menüye Dön</button>
+        </div>
+    </div>
+
+    <!-- Tarif Tamamlama Ekranı -->
+    <div id="recipe-complete-screen" class="overlay hidden">
+        <div class="completion-content">
+            <h2 id="completion-title">Tebrikler Ceyda!</h2>
+            <img id="final-dish-image" src="" alt="Hazır Yemek">
+            <p id="completion-message"></p>
+            <div id="completion-score" class="score-display hidden">Kazandığın Puan: <span id="final-score"></span></div>
+            <div class="completion-buttons">
+                <button id="next-recipe-btn" class="action-button large">Sıradaki Tarif</button>
+                <button id="replay-recipe-btn" class="action-button medium">Tekrar Oyna</button>
+                <button id="back-to-menu-btn-complete" class="action-button medium">Ana Menü</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tarif Kitabı Ekranı -->
+    <div id="recipe-book-screen" class="overlay hidden">
+         <div class="overlay-content scrollable">
+             <h2>Tarif Kitabı</h2>
+             <div id="recipe-list" class="grid-list">
+                 <!-- Tarif kartları buraya gelecek -->
+             </div>
+             <button class="close-overlay-btn action-button medium" data-target="recipe-book-screen">Kapat</button>
+         </div>
+    </div>
+
+    <!-- Başarılar Ekranı -->
+    <div id="achievements-screen" class="overlay hidden">
+         <div class="overlay-content scrollable">
+             <h2>Başarılarım</h2>
+             <div id="achievement-list" class="list">
+                 <!-- Başarılar buraya gelecek -->
+             </div>
+             <button class="close-overlay-btn action-button medium" data-target="achievements-screen">Kapat</button>
+         </div>
+    </div>
+
+     <!-- Ayarlar Ekranı -->
+    <div id="options-screen" class="overlay hidden">
+        <div class="overlay-content">
+            <h2>Ayarlar</h2>
+            <div class="options-group">
+                <label for="bgm-volume">Müzik Sesi:</label>
+                <input type="range" id="bgm-volume" min="0" max="1" step="0.1" value="0.5">
+            </div>
+             <div class="options-group">
+                <label for="sfx-volume">Efekt Sesi:</label>
+                <input type="range" id="sfx-volume" min="0" max="1" step="0.1" value="0.7">
+            </div>
+             <div class="options-group">
+                 <label>İlerleme:</label> <!-- Label eklendi -->
+                 <button id="reset-progress-btn" class="action-button danger small">İlerlemeyi Sıfırla</button>
+             </div>
+            <button class="close-overlay-btn action-button medium" data-target="options-screen">Kapat</button>
+        </div>
+    </div>
+
+
+    <!-- JS Dosyaları (Sıralama Önemli!) -->
+    <script src="js/utils.js"></script>
+    <script src="js/audio.js"></script> <!-- Önce Audio -->
+    <script src="js/achievements.js"></script>
+    <script src="js/chef_kedi.js"></script>
+    <script src="js/recipes.js"></script>
+    <script src="js/minigames.js"></script> <!-- UI'dan önce olabilir -->
+    <script src="js/ui.js"></script>       <!-- Sonra UI -->
+    <script src="js/game.js"></script>     <!-- En son Game -->
+    <script>
+        // Oyunu Başlatma Mantığı
+        function initializeGame() {
+            console.log("DOM fully loaded. Initializing Game...");
+            Game.init(); // Oyun motorunu başlat (UI, Audio vb. dahil)
+
+            // Kaynakların yüklenmesini bekle (basit yöntem)
+             window.addEventListener('load', () => {
+                 console.log("All resources loaded. Hiding loading screen.");
+                 // Küçük bir gecikme ile yükleme ekranını gizle ve ana menüyü göster
+                 setTimeout(() => {
+                    UI.hideScreen('loading-screen');
+                    UI.showScreen('main-menu');
+                    // BGM'yi burada çalmayı deneyebiliriz (tarayıcı engelleyebilir)
+                    GameAudio.playBGM();
+                 }, 500); // 500ms gecikme
+             }, { once: true }); // Sadece bir kere çalışsın
+        }
+
+        // DOM hazır olduğunda oyunu başlat
+        if (document.readyState === 'loading') { // Henüz yükleniyor
+            document.addEventListener('DOMContentLoaded', initializeGame);
+        } else { // DOM zaten hazır
+            initializeGame();
+        }
+    </script>
+</body>
+</html>
