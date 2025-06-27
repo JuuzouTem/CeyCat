@@ -8,30 +8,36 @@
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Google Fonts: Inter ve Caveat -->
+    <!-- Google Fonts: Playfair Display, Caveat, Roboto -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     
     <style>
-        /* CSS ve Stil Tanımlamaları */
+        /* === KOD 1'DEN GELEN STİLLER (Adapte Edilmiş) === */
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: #111827; /* Koyu Gri - Goth Teması */
-            color: #E5E7EB; /* Açık Gri Yazı Rengi */
+            font-family: 'Roboto', sans-serif;
+            background-color: #111827; /* Tailwind'in dark-gray'i ile uyumlu */
+            color: #E5E7EB;
             overflow-x: hidden;
         }
 
-        /* Başlıklar ve özel metinler için el yazısı fontu */
+        #starry-sky {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1; /* Arka planda kalması için */
+        }
+
+        /* === KOD 2'DEN GELEN VE BİRLEŞTİRİLEN STİLLER === */
         .font-handwriting {
             font-family: 'Caveat', cursive;
         }
-        
-        /* Ana karşılama alanı için gradyan arkaplan */
-        .hero-gradient {
-            background: linear-gradient(135deg, rgba(236, 72, 153, 0.2) 0%, rgba(29, 25, 47, 0.8) 70%), 
-                        linear-gradient(225deg, rgba(139, 92, 246, 0.2) 0%, rgba(29, 25, 47, 0.8) 70%);
-            background-color: #111827;
+
+        .font-elegant {
+            font-family: 'Playfair Display', serif;
         }
         
         /* Kartlar ve interaktif elementler için stil */
@@ -74,17 +80,31 @@
             from { opacity: 0; transform: scale(0.95); }
             to { opacity: 1; transform: scale(1); }
         }
+
+        /* Özel Mesaj Kutusu Stili (Kod 1'den ilhamla) */
+        .message-box {
+            background-color: #1c1c1c;
+            border-left: 5px solid #a855f7; /* Violet */
+            font-size: 1.1rem;
+        }
     </style>
 </head>
 <body class="antialiased">
 
-    <!-- Ana Karşılama Alanı -->
-    <header class="hero-gradient min-h-screen flex flex-col items-center justify-center text-center p-8">
-        <h1 class="font-handwriting text-7xl md:text-9xl text-pink-400 drop-shadow-lg">Konichiwa, CeyCat!</h1>
-        <p class="mt-4 text-xl md:text-2xl text-slate-300 max-w-2xl">
-            Zaman ne hızlı geçiyor, değil mi? Tıpkı favori animelerimizin yeni sezonları gibi, bir de bakmışız yeni bir yaş gelmiş. Doğum günün kutlu olsun!
-        </p>
-        <div class="mt-8 text-3xl animate-bounce">
+    <!-- Yıldızlı Gökyüzü Arka Planı (Kod 1'den) -->
+    <canvas id="starry-sky"></canvas>
+
+    <!-- Ana Karşılama Alanı (Kod 1 ve 2 Birleşimi) -->
+    <header class="min-h-screen flex flex-col items-center justify-center text-center p-8 relative">
+        <div class="bg-black/50 backdrop-blur-sm rounded-2xl p-8 md:p-12 border border-slate-700/50">
+            <h1 class="font-elegant text-5xl md:text-7xl text-white drop-shadow-lg" style="text-shadow: 0 0 15px #a855f7;">
+                İyi ki Doğdun, CeyCat'im
+            </h1>
+            <p class="mt-4 text-lg md:text-xl text-slate-300 max-w-2xl font-elegant italic">
+                Seninle paylaştığımız evrenin küçük bir yansıması...
+            </p>
+        </div>
+        <div class="absolute bottom-10 text-3xl animate-bounce">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-pink-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
             </svg>
@@ -92,42 +112,63 @@
     </header>
 
     <main class="py-16 md:py-24 px-6 md:px-12">
-        <!-- Anılar Zaman Tüneli -->
+        <!-- Anılar Zaman Tüneli (İki kodun anıları birleştirildi) -->
         <section id="timeline" class="reveal max-w-6xl mx-auto">
             <h2 class="text-4xl md:text-5xl font-bold text-center mb-12 font-handwriting text-violet-400">Bizim Zaman Tünelimiz...</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 
-                <!-- Anı Kartı 1: Anime -->
+                <!-- Anı Kartı 1 -->
+                <div class="card rounded-xl p-6 flex flex-col items-center text-center" data-title="03.04.2025 - Bir Başlangıç" data-text="'Konichiwa' ile başlayıp 'Arara~' ile devam eden, saniyeler içinde binlerce mesaja dönüşen o ilk an...">
+                    <div class="text-5xl mb-4">🐈‍</div>
+                    <h3 class="text-xl font-bold text-pink-400 font-elegant">O İlk An</h3>
+                    <p class="mt-2 text-slate-400">Her şeyin başladığı yer.</p>
+                </div>
+
+                <!-- Anı Kartı 2 -->
                 <div class="card rounded-xl p-6 flex flex-col items-center text-center" data-title="Anime Geceleri" data-text="'Subaru yüzünden bırakılır', 'Ben hot onesanları seviyorum', 'JJK teorileri...' Bitmeyen anime tartışmalarımız ve birlikte daldığımız o dünyalar olmasa her şey ne kadar eksik olurdu.">
-                    <img src="https://placehold.co/100x100/ec4899/ffffff?text=アニメ" class="w-24 h-24 rounded-full mb-4 object-cover border-4 border-pink-500/50" alt="Anime Simgesi">
-                    <h3 class="text-xl font-bold text-pink-400">Anime Evrenimiz</h3>
+                     <div class="text-5xl mb-4">🎬</div>
+                    <h3 class="text-xl font-bold text-violet-400 font-elegant">Anime Evrenimiz</h3>
                     <p class="mt-2 text-slate-400">Re:Zero'dan JJK'ya uzanan maceralar.</p>
                 </div>
 
-                <!-- Anı Kartı 2: Lakaplar -->
-                <div class="card rounded-xl p-6 flex flex-col items-center text-center" data-title="Özel İsimlerimiz" data-text="'CeyCat' ve '18'lik Behlül'... Sadece bizim bildiğimiz, bizim anladığımız o komik lakaplar. Her biri ayrı bir anı, ayrı bir gülüş sebebi.">
-                     <img src="https://placehold.co/100x100/a855f7/ffffff?text=Cat" class="w-24 h-24 rounded-full mb-4 object-cover border-4 border-violet-500/50" alt="Kedi Simgesi">
-                    <h3 class="text-xl font-bold text-violet-400">"CeyCat" & 18'lik Behlül</h3>
-                    <p class="mt-2 text-slate-400">Sadece ikimizin anladığı o isimler.</p>
+                <!-- Anı Kartı 3 -->
+                <div class="card rounded-xl p-6 flex flex-col items-center text-center" data-title="Gotik Anne & Şapşal Oğlu" data-text="Herkesin sığındığı, koruyup kollayan o 'anne figürün'... Tanımadığı herhangi bir insanın da şefkate ihtiyacı olduğunu bilen bir 'kuzum'. Bu bizim dinamiğimiz.">
+                    <div class="text-5xl mb-4">🌟</div>
+                    <h3 class="text-xl font-bold text-pink-400 font-elegant">Rollerimiz</h3>
+                    <p class="mt-2 text-slate-400">"Anne" & "Oğlu".</p>
+                </div>
+                
+                 <!-- Anı Kartı 4 -->
+                <div class="card rounded-xl p-6 flex flex-col items-center text-center" data-title="Ceyda Kuralları" data-text="Kendi doğrularıyla yaşayan, kimseden korkmayan, 'benim nezdimde bu böyle' diyebilen o güçlü duruş. O duruşa olan hayranlığım hiç bitmeyecek.">
+                    <div class="text-5xl mb-4">🖤</div>
+                    <h3 class="text-xl font-bold text-violet-400 font-elegant">Ceyda Kuralları</h3>
+                    <p class="mt-2 text-slate-400">Kim ne derse desin.</p>
+                </div>
+                
+                 <!-- Anı Kartı 5 -->
+                <div class="card rounded-xl p-6 flex flex-col items-center text-center" data-title="Gelecek Planları" data-text="'ODTÜ'ye giden kızların %99'u gay...' Geleceğe dair kurduğumuz, içinde bolca kahkaha ve biraz da ciddiyet barındıran o kampüs hayalleri. O günlerin gelmesini iple çekiyorum.">
+                    <div class="text-5xl mb-4">🎓</div>
+                    <h3 class="text-xl font-bold text-pink-400 font-elegant">Kampüs Hayalleri</h3>
+                    <p class="mt-2 text-slate-400">Bir gün ODTÜ çimlerinde buluşmak üzere.</p>
                 </div>
 
-                <!-- Anı Kartı 3: ODTÜ Hayali -->
-                <div class="card rounded-xl p-6 flex flex-col items-center text-center" data-title="Gelecek Planları" data-text="'ODTÜ'ye giden kızların %99'u gay...' Geleceğe dair kurduğumuz, içinde bolca kahkaha ve biraz da ciddiyet barındıran o kampüs hayalleri. O günlerin gelmesini iple çekiyorum.">
-                    <img src="https://placehold.co/100x100/ec4899/ffffff?text=ODTÜ" class="w-24 h-24 rounded-full mb-4 object-cover border-4 border-pink-500/50" alt="Üniversite Simgesi">
-                    <h3 class="text-xl font-bold text-pink-400">Kampüs Hayalleri</h3>
-                    <p class="mt-2 text-slate-400">Bir gün ODTÜ çimlerinde buluşmak üzere.</p>
+                <!-- Anı Kartı 6 -->
+                <div class="card rounded-xl p-6 flex flex-col items-center text-center" data-title="Yaralar ve Umutlar" data-text="Bazen hayatın ne kadar zorladığını en iyi biz biliriz. Ama birbirimizin yaralarını saran da, en karanlık anda ışık olan da yine biz oluruz. Unutma.">
+                    <div class="text-5xl mb-4">🩹</div>
+                    <h3 class="text-xl font-bold text-violet-400 font-elegant">Yaralar ve Umutlar</h3>
+                    <p class="mt-2 text-slate-400">Birbirimize sığındığımız anlar.</p>
                 </div>
 
             </div>
         </section>
 
-        <!-- Neden Kavga Ettik? (Subliminal Bölüm) -->
+        <!-- Felsefe / Tartışma Bölümü (Kod 2'den) -->
         <section id="philosophy" class="reveal max-w-4xl mx-auto text-center mt-24 md:mt-32">
             <h2 class="text-4xl md:text-5xl font-bold mb-4 font-handwriting text-slate-300">İki Farklı Dünya</h2>
             <p class="text-slate-400 mb-12 max-w-2xl mx-auto">Bazen aynı gökyüzüne farklı pencerelerden bakarız. Sen sonuçların getireceği mutluluğa odaklanırsın, ben ise ilkelerin doğruluğuna... Aramızdaki en güzel tartışmalar da buradan çıkmaz mıydı zaten?</p>
             
             <div class="group flex flex-col md:flex-row justify-center items-center gap-8 md:gap-16">
-                <!-- İlkesel Doğruluk (Deontology) -->
+                <!-- İlkesel Doğruluk -->
                 <div class="relative w-40 h-40 flex items-center justify-center">
                    <svg class="w-32 h-32 text-slate-500 transition-all duration-500 group-hover:text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"></path></svg>
                     <p class="absolute text-center text-sm text-slate-400 transition-opacity duration-500 opacity-0 group-hover:opacity-100">İlkelerin sağlamlığı...</p>
@@ -138,7 +179,7 @@
                     <p class="absolute bottom-0 text-center text-slate-300 transition-all duration-500 opacity-0 group-hover:opacity-100 group-hover:-translate-y-8">...ama zıt kutuplar birbirini çeker.</p>
                 </div>
                 
-                <!-- Sonuç Odaklı Mutluluk (Utilitarianism) -->
+                <!-- Sonuç Odaklı Mutluluk -->
                 <div class="relative w-40 h-40 flex items-center justify-center">
                      <svg class="w-32 h-32 text-slate-500 transition-all duration-500 group-hover:text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
                     <p class="absolute text-center text-sm text-slate-400 transition-opacity duration-500 opacity-0 group-hover:opacity-100">...getireceği mutluluk.</p>
@@ -146,26 +187,32 @@
             </div>
             <p class="mt-12 text-slate-400">Belki de haklı/haksız yoktur, sadece farklı bakış açıları vardır.</p>
         </section>
-
-        <!-- Barışma Teklifi -->
-        <section id="reconciliation" class="reveal text-center mt-24 md:mt-32">
-            <h2 class="text-3xl md:text-4xl font-bold text-violet-400">Gelecekteki Tartışmalara?</h2>
-            <p class="mt-4 text-lg max-w-xl mx-auto text-slate-300">
-                ODTÜ kampüsündeki bir bankta, belki bir kahve eşliğinde, daha nice felsefi ve animetik tartışmaya... Ne dersin? 
-            </p>
-            <p class="mt-8 font-handwriting text-3xl text-pink-400">Özledim.</p>
+        
+        <!-- Özel Not Bölümü (Kod 1'den) -->
+        <section id="message" class="reveal max-w-4xl mx-auto mt-24 md:mt-32">
+            <h2 class="text-4xl md:text-5xl font-bold text-center mb-12 font-handwriting text-pink-400">Sana Özel Bir Not...</h2>
+            <div class="message-box rounded-lg p-8 shadow-lg">
+                <p class="mb-4">Canım Ceyda'm,</p>
+                <p class="mb-4">Aramıza kelimeler, mesafeler ve sessizlikler girmiş olabilir. Bazen düşüncelerimiz çarpışır, bazen de birbirimizi yanlış anlarız. Ama bu, paylaştığımız o dünyanın, gecenin bir yarısı ettiğimiz sohbetlerin, attığımız kahkahaların ve en önemlisi birbirimize verdiğimiz değerin önüne geçemez.</p>
+                <p class="mb-4">Sen, tanıdığım en güçlü, en inanılmaz insanlardan birisin. Herkesin ne dediğini umursamadan kendi doğrularıyla yaşayan, sevdiklerini sonuna kadar koruyan, o "güçlü kadın" sensin. Ve evet, en güçlü kadınların bile anlaşılmaya, şefkate ve dinlenmeye ihtiyacı vardır.</p>
+                <p class="mb-4">Bazen kelimelerim yetersiz kalıyor, bazen de fazla geliyor olabilir. Ama niyetim her zaman seni anlamak ve yanında olmak. Çünkü sen benim için çok değerlisin. Bu site, o kısacık zamanda kurduğumuz o kocaman bağın ne kadar özel olduğunu hatırlatmak için küçük bir hediye.</p>
+                <p class="mb-4">Umarım yeni yaşın sana hak ettiğin tüm mutluluğu, huzuru ve başarıyı getirir. O güzel gülüşün yüzünden hiç eksik olmasın.</p>
+                <p class="mb-4">Her zaman yanındayım, unutma olur mu?</p>
+                <p class="text-right italic font-bold mt-8 text-violet-400 font-handwriting text-2xl">Sevgiyle, kuzun Behlül.</p>
+            </div>
         </section>
+
     </main>
 
-    <!-- Footer -->
+    <!-- Footer (Birleştirilmiş) -->
     <footer class="w-full text-slate-400 py-6 px-8 mt-16 border-t border-slate-800">
         <div class="max-w-6xl mx-auto flex flex-col sm:flex-row justify-between items-center text-center gap-4 sm:gap-0">
-            <p class="font-handwriting text-lg text-pink-400">Sevgiyle, kuzun Behlül.</p>
-            <p class="font-handwriting text-lg text-violet-400">For Ceyda, with love. ❤️</p>
+            <p class="font-handwriting text-lg text-pink-400">For Ceyda, with love. ❤️</p>
+            <p class="font-handwriting text-lg text-violet-400">Gelecekteki daha nice tartışmaya...</p>
         </div>
     </footer>
     
-    <!-- Modal Penceresi -->
+    <!-- Modal Penceresi (Kod 2'den) -->
     <div id="modal-backdrop" class="fixed inset-0 z-50 items-center justify-center hidden">
         <div id="modal-content" class="rounded-xl shadow-2xl p-8 max-w-md w-11/12 border border-slate-700 relative">
             <button id="modal-close-btn" class="absolute top-4 right-4 text-slate-400 hover:text-white">
@@ -178,11 +225,74 @@
         </div>
     </div>
 
+    <!-- Arka Plan Müziği -->
+    <audio id="background-music" src="school_roof.mp3" loop></audio>
+
     <script>
-        // JavaScript Kodları
         document.addEventListener('DOMContentLoaded', () => {
             
-            // --- Anı Kartları Modal Etkileşimi ---
+            // --- KOD 1: Yıldızlı Gökyüzü Animasyonu ---
+            const canvas = document.getElementById('starry-sky');
+            if (canvas) {
+                const ctx = canvas.getContext('2d');
+                canvas.width = window.innerWidth;
+                canvas.height = document.body.scrollHeight; // Sayfanın tamamını kaplaması için
+
+                let stars = [];
+                const numStars = 250;
+
+                // Yıldızları oluştur
+                for (let i = 0; i < numStars; i++) {
+                    stars.push({
+                        x: Math.random() * canvas.width,
+                        y: Math.random() * canvas.height,
+                        radius: Math.random() * 1.5 + 0.5,
+                        alpha: Math.random() * 0.5 + 0.5,
+                        twinkleSpeed: Math.random() * 0.03 + 0.01,
+                        direction: 1
+                    });
+                }
+
+                function drawStars() {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    ctx.fillStyle = 'white';
+                    stars.forEach(star => {
+                        star.alpha += star.twinkleSpeed * star.direction;
+                        if (star.alpha > 1 || star.alpha < 0.2) {
+                            star.direction *= -1;
+                        }
+                        ctx.globalAlpha = star.alpha;
+                        ctx.beginPath();
+                        ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+                        ctx.fill();
+                    });
+                    ctx.globalAlpha = 1.0;
+                }
+
+                function animateStars() {
+                    drawStars();
+                    requestAnimationFrame(animateStars);
+                }
+                animateStars();
+
+                window.addEventListener('resize', () => {
+                    canvas.width = window.innerWidth;
+                    canvas.height = document.body.scrollHeight;
+                    stars = [];
+                    for (let i = 0; i < numStars; i++) {
+                        stars.push({
+                            x: Math.random() * canvas.width,
+                            y: Math.random() * canvas.height,
+                            radius: Math.random() * 1.5 + 0.5,
+                            alpha: Math.random() * 0.5 + 0.5,
+                            twinkleSpeed: Math.random() * 0.03 + 0.01,
+                            direction: 1
+                        });
+                    }
+                });
+            }
+
+            // --- KOD 2: Anı Kartları Modal Etkileşimi ---
             const memoryCards = document.querySelectorAll('.card');
             const modalBackdrop = document.getElementById('modal-backdrop');
             const modalTitle = document.getElementById('modal-title');
@@ -191,20 +301,17 @@
 
             memoryCards.forEach(card => {
                 card.addEventListener('click', () => {
-                    // Karttan verileri al ve modal'ı doldur
                     const title = card.getAttribute('data-title');
                     const text = card.getAttribute('data-text');
                     
                     modalTitle.textContent = title;
                     modalText.textContent = text;
                     
-                    // Modal'ı göster
                     modalBackdrop.classList.remove('hidden');
                     modalBackdrop.classList.add('flex');
                 });
             });
 
-            // Modal kapatma fonksiyonu
             const closeModal = () => {
                 modalBackdrop.classList.add('hidden');
                 modalBackdrop.classList.remove('flex');
@@ -212,15 +319,13 @@
 
             modalCloseBtn.addEventListener('click', closeModal);
             modalBackdrop.addEventListener('click', (event) => {
-                // Sadece arkaplana tıklandığında kapat
                 if (event.target === modalBackdrop) {
                     closeModal();
                 }
             });
 
-            // --- Scroll ile Animasyon Tetikleme ---
+            // --- KOD 2: Scroll ile Animasyon Tetikleme ---
             const revealElements = document.querySelectorAll('.reveal');
-
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
@@ -228,12 +333,27 @@
                     }
                 });
             }, {
-                threshold: 0.1 // Elementin %10'u göründüğünde tetikle
+                threshold: 0.1 
             });
 
             revealElements.forEach(el => {
                 observer.observe(el);
             });
+
+            // --- Arka Plan Müziği Başlatma ---
+            const music = document.getElementById('background-music');
+            if (music) {
+                let playPromise = music.play();
+                if (playPromise !== undefined) {
+                    playPromise.catch(error => {
+                        console.log("Otomatik oynatma engellendi. Kullanıcı etkileşimi bekleniyor.");
+                        // İlk kullanıcı etkileşiminde (tıklama) müziği başlatmak için tek seferlik bir dinleyici ekle.
+                        document.body.addEventListener('click', () => {
+                            music.play();
+                        }, { once: true });
+                    });
+                }
+            }
         });
     </script>
 
